@@ -154,6 +154,7 @@ Current strengths:
 **Shazil Parwez**
 
 GitHub: https://github.com/ShazilParwez
+Deployment: https://braillebridge-ten.vercel.app/
 
 ---
 
