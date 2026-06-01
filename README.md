@@ -1,20 +1,28 @@
 # BrailleBridge
 
-BrailleBridge is an AI-powered accessibility platform that converts physical Braille into readable English text and spoken audio in real time. The project combines computer vision, machine learning, and text-to-speech technology to help bridge the communication gap between Braille users and non-Braille readers.
+BrailleBridge is an AI-powered accessibility platform that converts physical Braille into readable English text and spoken audio in real time. By combining computer vision, machine learning, and text-to-speech technology, BrailleBridge helps bridge the communication gap between Braille users and non-Braille readers.
+
+---
 
 ## Inspiration
 
-Millions of visually impaired individuals rely on Braille for reading and communication. However, many people around them cannot understand Braille, creating accessibility barriers in everyday life. BrailleBridge was built to make Braille content instantly understandable through AI-powered recognition and speech generation.
+Millions of visually impaired individuals rely on Braille for reading and communication. However, many people around them cannot understand Braille, creating accessibility barriers in everyday life.
+
+BrailleBridge was built to make Braille content instantly understandable through AI-powered recognition and speech generation, making information more accessible and inclusive.
+
+---
 
 ## Features
 
 - Real-time Braille recognition using a webcam
 - Physical Braille detection from camera captures
 - Braille-to-English text conversion
-- Text-to-Speech audio playback
+- Text-to-Speech (TTS) audio playback
 - Modern Flutter Web interface
-- Upload image support
+- Image upload support
 - Responsive and accessibility-focused design
+
+---
 
 ## Demo Workflow
 
@@ -23,6 +31,8 @@ Millions of visually impaired individuals rely on Braille for reading and commun
 3. Analyze Image
 4. View English Translation
 5. Listen to Audio Output
+
+---
 
 ## Tech Stack
 
@@ -46,7 +56,9 @@ Millions of visually impaired individuals rely on Braille for reading and commun
 
 ### Deployment
 - Vercel (Frontend)
-- Ngrok Tunnel (Backend Exposure)
+- Ngrok (Backend Exposure)
+
+---
 
 ## Project Architecture
 
@@ -72,22 +84,26 @@ Camera/Image Input
  Text-to-Speech Output
 ```
 
+---
+
 ## How It Works
 
 ### Step 1: Capture
 The user captures a photo of physical Braille using the browser camera.
 
 ### Step 2: Detection
-The image is sent to the FastAPI backend where a custom YOLOv8 model detects Braille cells.
+The image is sent to the FastAPI backend, where a YOLOv8-based model detects Braille cells.
 
 ### Step 3: Decoding
 Detected Braille patterns are converted into their corresponding English characters.
 
 ### Step 4: Translation
-The decoded text is displayed in the interface.
+The decoded text is displayed within the application.
 
 ### Step 5: Speech Generation
 The translated text can be played as audio using the integrated text-to-speech pipeline.
+
+---
 
 ## Challenges Faced
 
@@ -99,7 +115,9 @@ The translated text can be played as audio using the integrated text-to-speech p
   - Blur
   - Uneven spacing
 - Flutter Web camera integration required custom HTML5 video handling.
-- Managing image capture and browser permissions across devices required extensive debugging.
+- Managing image capture and browser permissions across devices required extensive debugging and testing.
+
+---
 
 ## Future Improvements
 
@@ -110,6 +128,8 @@ The translated text can be played as audio using the integrated text-to-speech p
 - Multiple language support
 - Handwritten Braille recognition
 - Cloud-based model serving
+
+---
 
 ## Installation
 
@@ -122,11 +142,13 @@ cd BrailleBridge
 
 ### Backend Setup
 
+Install dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
-Run backend:
+Run the backend:
 
 ```bash
 uvicorn main:app --reload
@@ -139,22 +161,50 @@ flutter pub get
 flutter run -d chrome
 ```
 
+---
+
+## Live Demo
+
+🌐 **Deployment:** https://braillebridge-ten.vercel.app/
+
+---
+
 ## Project Status
 
-Hackathon Prototype – Functional MVP
+### Hackathon Prototype – Functional MVP
 
 Current strengths:
+
 - Physical Braille recognition
 - Real-time camera workflow
 - Speech output
 - End-to-end accessibility pipeline
+- Browser-based experience with no installation required
+
+---
+
+## Attribution
+
+This project uses pretrained Braille detection weights derived from the DotNeuralNet ecosystem and the YOLOv8 architecture for Braille cell recognition.
+
+Additional development completed for this project includes:
+
+- Flutter Web frontend development
+- Real-time browser camera integration
+- FastAPI backend integration
+- Braille decoding pipeline
+- Text-to-Speech functionality
+- UI/UX redesign
+- Deployment and testing workflow
+- End-to-end accessibility experience
+
+---
 
 ## Author
 
 **Shazil Parwez**
 
 GitHub: https://github.com/ShazilParwez
-Deployment: https://braillebridge-ten.vercel.app/
 
 ---
 
