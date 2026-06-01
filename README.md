@@ -1,124 +1,160 @@
-# DotNeuralNet
+# BrailleBridge
 
-[![Streamlit Demo App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://huggingface.co/spaces/snoop2head/braille-detection)
+BrailleBridge is an AI-powered accessibility platform that converts physical Braille into readable English text and spoken audio in real time. The project combines computer vision, machine learning, and text-to-speech technology to help bridge the communication gap between Braille users and non-Braille readers.
 
-**Light-weight Neural Network for Optical Braille Recognition in the wild & on the book.**
+## Inspiration
 
-- Classified multi label one-hot encoded labels for raised dots.
-- Pseudo-labeled Natural Scene Braille symbols.
-- Trained single stage object detection YOLO models for Braille symbols.
+Millions of visually impaired individuals rely on Braille for reading and communication. However, many people around them cannot understand Braille, creating accessibility barriers in everyday life. BrailleBridge was built to make Braille content instantly understandable through AI-powered recognition and speech generation.
 
-### Repository Structure
+## Features
 
-```
-DotNeuralNet
-ㄴ assets - example images and train/val logs
-ㄴ dataset
-  ㄴ AngelinaDataset - book background
-  ㄴ braille_natural - natural scene background
-  ㄴ DSBI - book background
-  ㄴ KaggleDataset - arbitrary 6 dots
-  ㄴ yolo.yaml - yolo dataset config
-ㄴ src
-  ㄴ utils
-    ㄴ angelina_utils.py
-    ㄴ braille_natural_utils.py
-    ㄴ dsbi_utils.py
-    ㄴ kaggle_utils.py
-  ㄴ crop_bbox.py
-  ㄴ dataset.py
-  ㄴ model.py
-  ㄴ pseudo_label.py
-  ㄴ train.py
-  ㄴ visualize.py
-ㄴ weights
-  ㄴ yolov5_braille.pt # yolov5-m checkpoint
-  ㄴ yolov8_braille.pt # yolov8-m checkpoint
-```
+- Real-time Braille recognition using a webcam
+- Physical Braille detection from camera captures
+- Braille-to-English text conversion
+- Text-to-Speech audio playback
+- Modern Flutter Web interface
+- Upload image support
+- Responsive and accessibility-focused design
 
-### Result
+## Demo Workflow
 
-- Inferenced result of yolov8-m model on validation subset.
-  ![yolov8 img](./assets/result_yolov8.png)
-- Inferenced result of yolov5-m model on validation subset.
-  ![yolov5 img](./assets/result_yolov5.png)
+1. Open Camera
+2. Capture Braille Image
+3. Analyze Image
+4. View English Translation
+5. Listen to Audio Output
 
-### Logs
+## Tech Stack
 
-- Train / Validation log of yolov8-m model
-  ![yolov8 log](./assets/log_yolov8_long.png)
-- Train / Validation log of yolov5-m model available at [🔗 WandB](https://wandb.ai/snoop2head/YOLOv5/runs/mqvmh4nc)
-  ![yolov8 log](./assets/log_yolov5.png)
+### Frontend
+- Flutter Web
+- Dart
+- HTML5 Camera APIs
+- Audioplayers
 
-### Installation
+### Backend
+- FastAPI
+- Python
 
-CV2 and Yolo Dependency Installation
+### AI / Machine Learning
+- YOLOv8
+- Ultralytics
 
-```shell
-apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
-git clone https://github.com/ultralytics/yolov5  # clone
-cd yolov5
-pip install -r requirements.txt  # install
-```
+### Computer Vision
+- OpenCV
+- Pillow (PIL)
 
-### How to Run
+### Deployment
+- Vercel (Frontend)
+- Ngrok Tunnel (Backend Exposure)
 
-- Please refer to `src/inference.py` or `src/demo.py` to run the model.
-- For online demo, please visit [🔗 Streamlit demo](https://huggingface.co/spaces/snoop2head/braille-detection).
+## Project Architecture
 
-```python
-import PIL
-from ultralytics import YOLO
-from convert import convert_to_braille_unicode, parse_xywh_and_class
-
-def load_model(model_path):
-    """load model from path"""
-    model = YOLO(model_path)
-    return model
-
-def load_image(image_path):
-    """load image from path"""
-    image = PIL.Image.open(image_path)
-    return image
-
-# constants
-CONF = 0.15 # or other desirable confidence threshold level
-MODEL_PATH = "./weights/yolov8_braille.pt"
-IMAGE_PATH = "./assets/alpha-numeric.jpeg"
-
-# receiving results from the model
-image = load_image(IMAGE_PATH)
-model = YOLO(MODEL_PATH)
-res = model.predict(image, save=True, save_txt=True, exist_ok=True, conf=CONF)
-boxes = res[0].boxes  # first image
-list_boxes = parse_xywh_and_class(boxes)
-
-result = ""
-for box_line in list_boxes:
-    str_left_to_right = ""
-    box_classes = box_line[:, -1]
-    for each_class in box_classes:
-        str_left_to_right += convert_to_braille_unicode(model.names[int(each_class)])
-    result += str_left_to_right + "\n"
-
-print(result)
-"""
-⠁⠃⠉⠋⠙⠑⠙⠋⠛⠓⠊⠑
-⠓⠇⠇⠍⠝⠕⠏⠟⠗
-⠎⠞⠥⠼⠗⠭⠵
-⠼⠧⠚⠁⠃⠉⠙⠑⠙⠛⠚⠊⠑
-"""
-
+```text
+Camera/Image Input
+        │
+        ▼
+ Flutter Web Frontend
+        │
+        ▼
+ FastAPI Backend
+        │
+        ▼
+ YOLOv8 Braille Detection
+        │
+        ▼
+ Braille Decoding Logic
+        │
+        ▼
+ English Translation
+        │
+        ▼
+ Text-to-Speech Output
 ```
 
-### Citation
+## How It Works
 
-If you find DotNeuralNet useful for your research, please consider citing the repository:
+### Step 1: Capture
+The user captures a photo of physical Braille using the browser camera.
 
+### Step 2: Detection
+The image is sent to the FastAPI backend where a custom YOLOv8 model detects Braille cells.
+
+### Step 3: Decoding
+Detected Braille patterns are converted into their corresponding English characters.
+
+### Step 4: Translation
+The decoded text is displayed in the interface.
+
+### Step 5: Speech Generation
+The translated text can be played as audio using the integrated text-to-speech pipeline.
+
+## Challenges Faced
+
+- Real-world Braille recognition is significantly harder than recognizing clean dataset images.
+- Physical camera images introduce:
+  - Perspective distortion
+  - Lighting variations
+  - Shadows
+  - Blur
+  - Uneven spacing
+- Flutter Web camera integration required custom HTML5 video handling.
+- Managing image capture and browser permissions across devices required extensive debugging.
+
+## Future Improvements
+
+- Multi-line Braille paragraph recognition
+- Higher accuracy custom-trained models
+- Mobile application support
+- Offline inference
+- Multiple language support
+- Handwritten Braille recognition
+- Cloud-based model serving
+
+## Installation
+
+### Clone Repository
+
+```bash
+git clone https://github.com/ShazilParwez/BrailleBridge.git
+cd BrailleBridge
 ```
-@misc{ahn2024dotneuralnet,
-  author={Ahn, Young Jin},
-  title={DotNeuralNet: Light-weight Neural Network for Optical Braille Recognition in the Wild},
-  year={2023},
-}
+
+### Backend Setup
+
+```bash
+pip install -r requirements.txt
 ```
+
+Run backend:
+
+```bash
+uvicorn main:app --reload
+```
+
+### Frontend Setup
+
+```bash
+flutter pub get
+flutter run -d chrome
+```
+
+## Project Status
+
+Hackathon Prototype – Functional MVP
+
+Current strengths:
+- Physical Braille recognition
+- Real-time camera workflow
+- Speech output
+- End-to-end accessibility pipeline
+
+## Author
+
+**Shazil Parwez**
+
+GitHub: https://github.com/ShazilParwez
+
+---
+
+Built with the goal of making information more accessible through AI.
