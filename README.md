@@ -166,6 +166,7 @@ flutter run -d chrome
 ## Live Demo
 
 🌐 **Deployment:** https://braillebridge-ten.vercel.app/
+
 📷 **Demo Video:** https://youtu.be/H2cwlKUSUn4?si=sSb8xADnWmYKlnMv
 
 ---
